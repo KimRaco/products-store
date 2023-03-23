@@ -19,22 +19,57 @@ const printCards = async () => {
 printCards();
 
 
-let precios = []
+// let precios = []
 
 
-const handler = ({price, title}) => {
-    let car = document.querySelector("#cart-id")
-    precios.push(price)
+// const handler = ({price, title}) => {
+//     let car = document.querySelector("#cart-id")
+//     precios.push(price)
+
+//     document.querySelectorAll("#cart-id div").forEach(div => div.remove())
     
 
-    car.append(cardCart(title, price))
-   document.getElementById("total").innerText = `Total = ${getTotal(precios)}`
+//     car.append(cardCart(title, price))
+//    document.getElementById("total").innerText = `Total = ${getTotal(precios)}`
+// }
+
+// const getTotal = (array) => {
+//     return array.reduce((acum, current) => acum + current, 0)
+// }
+
+
+
+//export {precios, getTotal}
+
+let saver = []
+let prices = []
+
+const handler = ({price, title}) => {
+    saver.push({title: title, price: price})
+    handlePrices(saver)
+
+    console.log (saver)
+
+    document.querySelectorAll("#cart-id div").forEach(div => div.remove())
+    let itemDiv = document.querySelector("#cart-id")
+    
+    
+    document.getElementById("total").innerText = `Total = ${getTotal(prices)}`
+
+    saver.forEach((it) => {
+       
+    itemDiv.append(cardCart(it))
+    })
+    
+    
+}
+
+const handlePrices = (saver) => {
+    prices = saver.map(it => it.price)
 }
 
 const getTotal = (array) => {
+    console.log(array)
     return array.reduce((acum, current) => acum + current, 0)
 }
-
-
-
-export {precios, getTotal}
+ export {getTotal, prices, saver, handlePrices}

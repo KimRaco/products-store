@@ -21,7 +21,7 @@
 // : 
 // "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
 
-import { precios, getTotal } from "./main.js";
+import { prices, getTotal , saver, handlePrices} from "./main.js";
 
 const createCard = (category, description, id, image, price, rating, title, handler) => {
     // let {name, url} = origin
@@ -68,7 +68,8 @@ const createCard = (category, description, id, image, price, rating, title, hand
 
      
 
- let cardCart = (title, price) => {
+ let cardCart = ({title, price}) => {
+   
   let divPrincipal = document.createElement("div")
      divPrincipal.classList.add("d-flex","justify-content-between")
     
@@ -77,45 +78,47 @@ const createCard = (category, description, id, image, price, rating, title, hand
      titleInDiv.classList.add ()
      titleInDiv.appendChild(textTitle)
     
+    
      let priceInDiv = document.createElement("div")
      priceInDiv.classList.add()
-     let textPrice = document.createTextNode(`Price: ${price}`)
-     priceInDiv.appendChild(textPrice)
+     
+    let textPrice = document.createTextNode(price)
+     priceInDiv.appendChild(textPrice)  
+   
 
     let deleteButton = document.createElement("button")
     const classAdd = deleteButton.classList;
     classAdd.add("btn","btn-outline-info","btn-sm");
     deleteButton.textContent = "x";
+    deleteButton.value = title;
 
 
-
-     precios.forEach((item, index) => {
-        let { price } = item; 
-        console.log (precios)
-
-            deleteButton.addEventListener("click", (deleteEvent) => 
-        {
-        deleteEvent.target.parentNode.remove()
-        console.log (index)
-        precios.splice(index,1)
-        getTotal(precios)
+     deleteButton.addEventListener("click", (deleteEvent) => {
+         deleteEvent.target.parentNode.remove() 
+         let index = saver.findIndex(it => it.title == deleteEvent.target.value)
+         saver.splice(index,1)
+         handlePrices(saver)
+         document.getElementById("total").innerText = `Total = ${getTotal(prices)}`
+         
         
-       
-          
-        })
+         })
 
-    }) 
+    
 
          //obj.splice(index,1)
-          
+             
      
      
     //  { deleteEvent.target.parentNode.remove() })
     
      divPrincipal.append(titleInDiv, priceInDiv, deleteButton)
+
+    
     
    return divPrincipal
      }
+     
+    
 
 
 //      let saver = []
